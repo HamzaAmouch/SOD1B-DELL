@@ -9,7 +9,7 @@
     </head>
     <body>
         <?php
-            $defaulPw = "w8woord";
+            $defaulPw = "XXLfrikandelbroodje";
             $hashedpw = password_hash($defaulPw, PASSWORD_DEFAULT);
 
             #1 verbinding met database
