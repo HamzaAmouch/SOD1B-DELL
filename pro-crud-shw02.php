@@ -2,7 +2,7 @@
 <html lang="nl"> 
 <head>
 	 <meta charset="UTF-8">
-	 <title>Onderhoud producten</title>
+	 <title>Alle producten overzicht</title>
 	 <link rel="stylesheet" type="text/css" href="company.css">  
 </head>
 
@@ -26,6 +26,7 @@
 			}
 			
 			try {
+				// Toon ALLE producten met hun categorie, leverancier en status
 				$sQuery = "SELECT p.ID, p.productname, p.price, c.name as category_name, s.company as supplier_name, p.isactive
 							FROM product p
 							JOIN category c ON p.categoryid = c.ID
@@ -36,21 +37,14 @@
 				?>
 
 				<p>&nbsp;</p>
-				<h2 class='centercell'>Onderhoud producten</h2>
+				<h2 class='centercell'>Alle producten (Beheerder)</h2>
 				<p>&nbsp;</p>
 
 				<?php
 				if ($oStmt->rowCount() > 0) {
 					echo '<div class="flexverticalcenter">';
 
-					// Knop om een nieuw product toe te voegen
-					echo '<form action="pro-crud-add.php" method="post">';
-					echo '  <label for="submt-sel-pro-add">Product toevoegen &nbsp; </label>';
-					echo '  <input type="submit" value="Voeg toe" name="submt-sel-pro-add" >';
-					echo '</form>';
-					echo '<p class="spacebelowabove">&nbsp;&nbsp;&nbsp;&nbsp;</p>';
-
-					// Tabel met alle producten en actieknoppen
+					// Toon overzicht van alle producten in tabelvorm
 					echo '<table class="tabledisp2">';
 					echo '<thead>';
 					echo '<td>ID</td>';
@@ -59,24 +53,21 @@
 					echo '<td>Categorie</td>';
 					echo '<td>Leverancier</td>';
 					echo '<td>Status</td>';
-					echo '<td>Acties</td>';
 					echo '</thead>';
 					while ($aRow = $oStmt->fetch(PDO::FETCH_ASSOC)) {
 						$status = ($aRow['isactive'] == 'J') ? 'Actief' : 'Inactief';
-						echo '<tr><form action="pro-crud-upd.php" method="POST">';
-						echo '<td><input type="number" readonly name="sel-pro-pk" value="' . $aRow['ID'] . '"></td>';
+						echo '<tr>';
+						echo '<td>' . $aRow['ID'] . '</td>';
 						echo '<td>' . htmlspecialchars($aRow['productname']) . '</td>';
 						echo '<td>€ ' . number_format($aRow['price'], 2, ',', '.') . '</td>';
 						echo '<td>' . htmlspecialchars($aRow['category_name']) . '</td>';
 						echo '<td>' . htmlspecialchars($aRow['supplier_name']) . '</td>';
 						echo '<td>' . $status . '</td>';
-						echo '<td><input type="submit" value="Wijzig" name="submt-sel-pro-upd">.&nbsp;&nbsp;';
-						echo '<input type="submit" value="Verwijder" name="submt-sel-pro-del" formaction="pro-crud-del.php"></td>';
-						echo '</form></tr>';
+						echo '</tr>';
 					}
 					echo '</table></div>';
 				} else {
-					echo 'Helaas, geen gegevens bekend';
+					echo '<p>Geen producten beschikbaar</p>';
 				}
 			} catch (PDOException $e) {
 				$sMsg = '<p> 
