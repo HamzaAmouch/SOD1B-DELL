@@ -12,6 +12,16 @@
     <div class="nav-flex01">
       <ul class="main-menu">
         <li class="main-item"><a href="index.php">Home</a></li>
+        <?php if (isset($_SESSION["benJeErAl"]) && $_SESSION["benJeErAl"] && isset($_SESSION["SoortToegang"]) && $_SESSION["SoortToegang"] === "Beheer") : ?>
+          <li class="main-item"><a href="#">Beheer</a>
+            <ul>
+              <li><a href="inlog-admin.php" class="scndlvl">Admin login</a></li>
+              <li><a href="signout.php" class="scndlvl">Uitloggen</a></li>
+            </ul>
+          </li>
+        <?php else : ?>
+          <li class="main-item"><a href="inlog-admin.php">Admin login</a></li>
+        <?php endif; ?>
         <li class="main-item"><a href="#">Bedrijf</a>
               <ul>
                 <li><a href="stat-ecofriend.php" class="scndlvl">Eco-vriendelijk</a></li>

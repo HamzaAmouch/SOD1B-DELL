@@ -10,6 +10,10 @@
 		<?php
 			session_start(); 
 			include "nav.html";
+			if (isset($_SESSION["login_success"])) {
+				echo '<p style="color: green; font-weight: bold;">' . htmlspecialchars($_SESSION["login_success"]) . '</p>';
+				unset($_SESSION["login_success"]);
+			}
 		?>
  
 	<!-- op de home pagina wat enthousiaste tekst over het bedrijf en de producten -->
