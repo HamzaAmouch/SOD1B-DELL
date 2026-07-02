@@ -18,6 +18,14 @@ include "nav.html";
 <section class="login-status">
 <p>U bent ingelogd als <?= htmlspecialchars($_SESSION["wieBenJeDan"], ENT_QUOTES, "UTF-8") ?></p>
 </section>
+<section class="client-menu">
+<h2>Menu voor ingelogde klant</h2>
+<ul>
+<li><a href="cli-crud-get.php">Mijn gegevens</a></li>
+<li><a href="pur-crud-shw.php">Aankopen</a></li>
+<li><a href="index.php">Homepage</a></li>
+</ul>
+</section>
 <?php endif; ?>
 <div class="centerflex">
 <img class="centreer" src="images/bread050.jpg" alt="main page image" width="500px"> 
