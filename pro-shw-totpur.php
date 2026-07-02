@@ -31,27 +31,33 @@ try {
 
     <h1>Alle producten met de waarde van diens aankopen</h1>
 
-    <table>
-        <thead>
-            <tr>
-                <th>product.ID</th>
-                <th>product.productname</th>
-                <th>product.price</th>
-                <th>supplier.company</th>
-                <th>totaal-verkopen</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($products as $product): ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($product["ID"]); ?></td>
-                    <td><?php echo htmlspecialchars($product["productname"]); ?></td>
-                    <td><?php echo htmlspecialchars($product["price"]); ?></td>
-                    <td><?php echo htmlspecialchars($product["suppliercompany"]); ?></td>
-                    <td><?php echo number_format((float)$product["totaalverkopen"], 2, ',', '.'); ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+    <?php if (count($products) > 0): ?>
+        <div class="centerflex">
+            <table class="tabledisp2">
+                <thead>
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Productnaam</th>
+                        <th>Prijs</th>
+                        <th>Leverancier</th>
+                        <th>Totale waarde aankopen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($products as $product): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($product["ID"]); ?></td>
+                            <td><?php echo htmlspecialchars($product["productname"]); ?></td>
+                            <td><?php echo htmlspecialchars($product["price"]); ?></td>
+                            <td><?php echo htmlspecialchars($product["suppliercompany"]); ?></td>
+                            <td><?php echo number_format((float)$product["totaalverkopen"], 2, ',', '.'); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    <?php else: ?>
+        <p>Er zijn geen producten gevonden.</p>
+    <?php endif; ?>
 </body>
 </html>
