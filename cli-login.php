@@ -11,24 +11,36 @@
         session_start();
         if(!isset($_POST["cliFrmBtn"]))
             {
-                header("Refresh: 4; url=index.php")
+                header("Refresh: 4; url=index.php");
                 include "nav.html";
                 echo "<h2>Foutieve manier naar dit programma!!</h2>";
                 echo "<p>Je keert terug naar het menu</p>";
+                exit;
             };
         
         /*-- controleer de formvelden op de juiste invoer */
         $usrid = testinput($_POST["cliFrmEml"]);
         $usrpw = testinput($_POST["cliFrmPw"]);
 
+        /*-- Open de database */
+        require_once "dbconnect.php";
+
         $chkInlog = $db->prepare("SELECT * FROM client WHERE email = :usrid");
-        $chkInlog->bindValue(":usrid"; $usrid);
+        $chkInlog->bindValue(":usrid", $usrid);
         $chkInlog->execute();
+        $chkRow = $chkInlog->fetch(PDO::FETCH_ASSOC);
         
-        if(!password_verify($usrpw, $chkRow["passwrd"]))
+        if(!$chkRow || !password_verify($usrpw, $chkRow["passwrd"]))
+            {
+                header("Refresh: 4; url=index.php");
+                include "nav.html";
+                echo "<h2>Foutieve combinatie van email en wachtwoord!</h2>";
+                echo "<p>Je keert terug naar het menu</p>";
+                exit;
+            };
 
-        include nav.html;
-
+        include "nav.html";
+    ?>
 
         <p>&nbsp;</p>
         <h2>Klant login</h2>
@@ -48,5 +60,15 @@
 
         </form>
     ?>
+
+    <?php
+        function testinput($formfield)
+        {
+            return $formfield;
+        };
+
+        $item = $stmt->fetch(PDO::FETCH_ASSOC);
+    ?>
 </body>
+
 </html>
