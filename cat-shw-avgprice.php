@@ -1,5 +1,5 @@
 <?php
-require_once("database.php"); // pas eventueel aan naar jouw databasebestand
+require_once("dbconnect.php");
 
 $sql = "
     SELECT
@@ -13,7 +13,17 @@ $sql = "
     ORDER BY category.name
 ";
 
-$result = mysqli_query($conn, $sql);
+$rows = [];
+try {
+    $stmt = $db->query($sql);
+    if ($stmt === false) {
+        throw new Exception('Query mislukt');
+    }
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (Exception $e) {
+    echo '<p style="color:red;">Fout bij query: '.htmlspecialchars($e->getMessage()).'</p>';
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -48,11 +58,17 @@ $result = mysqli_query($conn, $sql);
         <th>gem-prijs</th>
     </tr>
 
-    <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+    <?php foreach ($rows as $row) { ?>
         <tr>
-            <td><?= $row['ID']; ?></td>
-            <td><?= $row['name']; ?></td>
-            <td>€ <?= number_format($row['gem_prijs'], 2, ',', '.'); ?></td>
+            <td><?= htmlspecialchars($row['ID']); ?></td>
+            <td><?= htmlspecialchars($row['name']); ?></td>
+            <td><?php
+                if ($row['gem_prijs'] !== null) {
+                    echo '€ ' . number_format((float)$row['gem_prijs'], 2, ',', '.');
+                } else {
+                    echo '-';
+                }
+            ?></td>
         </tr>
     <?php } ?>
 

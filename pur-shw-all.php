@@ -1,5 +1,5 @@
 <?php
-require_once("database.php"); // pas aan naar jouw databasebestand
+require_once("dbconnect.php"); // pas aan naar jouw databasebestand
 
 $sql = "
     SELECT
